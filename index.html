@@ -1,35 +1,615 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sacred Serenity Recovery</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="Sacred Serenity Recovery — Christian-based, trauma-informed recovery support for individuals, couples, and groups. Surrender. Restore. Rebuild." />
+  <meta name="theme-color" content="#0d3b3e" />
+  <title>Sacred Serenity Recovery</title>
+
+  <!-- Simple, fast styling (no external dependencies) -->
+  <style>
+    :root{
+      --bg: #071b1c;
+      --surface: rgba(255,255,255,.06);
+      --surface-2: rgba(255,255,255,.09);
+      --text: rgba(255,255,255,.92);
+      --muted: rgba(255,255,255,.72);
+      --brand: #26c0b9;    /* teal */
+      --brand-2:#f2b36f;   /* warm sand/orange */
+      --ring: rgba(38,192,185,.45);
+      --border: rgba(255,255,255,.14);
+      --shadow: 0 18px 60px rgba(0,0,0,.45);
+      --radius: 18px;
+      --max: 1120px;
+      --font: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: var(--font);
+      color: var(--text);
+      background:
+        radial-gradient(1200px 700px at 20% 0%, rgba(38,192,185,.18), transparent 60%),
+        radial-gradient(1000px 600px at 90% 10%, rgba(242,179,111,.16), transparent 55%),
+        radial-gradient(900px 700px at 60% 100%, rgba(38,192,185,.14), transparent 55%),
+        linear-gradient(180deg, #061516, var(--bg));
+      min-height: 100vh;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible {
+      outline: 3px solid var(--ring);
+      outline-offset: 3px;
+      border-radius: 10px;
+    }
+
+    /* Layout */
+    .container { max-width: var(--max); margin: 0 auto; padding: 0 18px; }
+    .pill {
+      display:inline-flex; gap:10px; align-items:center;
+      background: rgba(255,255,255,.08);
+      border: 1px solid var(--border);
+      padding: 10px 12px;
+      border-radius: 999px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+    .dot { width:10px; height:10px; border-radius:999px; background: var(--brand); box-shadow: 0 0 0 6px rgba(38,192,185,.12); }
+
+    /* Header */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(12px);
+      background: rgba(7,27,28,.55);
+      border-bottom: 1px solid rgba(255,255,255,.10);
+    }
+    .nav {
+      display:flex; align-items:center; justify-content:space-between;
+      padding: 12px 0;
+      gap: 14px;
+    }
+    .brand {
+      display:flex; align-items:center; gap: 12px;
+      min-width: 220px;
+    }
+    .logo {
+      width: 40px; height: 40px; border-radius: 14px;
+      background:
+        radial-gradient(circle at 30% 30%, rgba(255,255,255,.25), transparent 50%),
+        linear-gradient(135deg, rgba(38,192,185,.9), rgba(242,179,111,.75));
+      box-shadow: 0 10px 35px rgba(0,0,0,.35);
+      border: 1px solid rgba(255,255,255,.18);
+    }
+    .brand h1 {
+      font-size: 15px; margin: 0;
+      letter-spacing: .2px;
+      line-height: 1.1;
+    }
+    .brand span { display:block; font-size: 12px; color: var(--muted); margin-top: 2px; }
+
+    .navlinks { display:flex; gap: 14px; align-items:center; flex-wrap: wrap; justify-content: flex-end; }
+    .navlinks a {
+      padding: 10px 10px;
+      color: var(--muted);
+      border-radius: 10px;
+      border: 1px solid transparent;
+    }
+    .navlinks a:hover { color: var(--text); border-color: rgba(255,255,255,.12); background: rgba(255,255,255,.05); }
+
+    .cta {
+      display:inline-flex; align-items:center; justify-content:center;
+      padding: 10px 14px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, rgba(38,192,185,.95), rgba(38,192,185,.72));
+      color: #042224;
+      font-weight: 700;
+      border: 1px solid rgba(255,255,255,.18);
+      box-shadow: 0 14px 40px rgba(38,192,185,.18);
+      white-space: nowrap;
+    }
+    .cta:hover { filter: brightness(1.05); transform: translateY(-1px); }
+
+    /* Hero */
+    .hero { padding: 56px 0 26px; }
+    .heroGrid {
+      display:grid;
+      grid-template-columns: 1.15fr .85fr;
+      gap: 18px;
+      align-items: stretch;
+    }
+    .card {
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.14);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+    .heroMain { padding: 26px; position: relative; overflow: hidden; }
+    .heroMain:before{
+      content:"";
+      position:absolute; inset:-2px;
+      background: radial-gradient(650px 250px at 20% 0%, rgba(38,192,185,.22), transparent 70%);
+      pointer-events:none;
+    }
+    .hero h2 {
+      margin: 14px 0 10px;
+      font-size: clamp(30px, 4vw, 44px);
+      line-height: 1.08;
+      letter-spacing: -.4px;
+    }
+    .hero p { margin: 0 0 18px; color: var(--muted); font-size: 16px; line-height: 1.55; max-width: 58ch; }
+    .heroActions { display:flex; gap: 12px; flex-wrap: wrap; align-items:center; }
+    .btn {
+      display:inline-flex; align-items:center; justify-content:center;
+      padding: 11px 14px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,.16);
+      background: rgba(255,255,255,.06);
+      color: var(--text);
+      font-weight: 650;
+    }
+    .btn:hover { background: rgba(255,255,255,.09); transform: translateY(-1px); }
+    .btnPrimary {
+      background: linear-gradient(135deg, rgba(242,179,111,.95), rgba(242,179,111,.68));
+      color: #2a1706;
+      border-color: rgba(255,255,255,.16);
+      box-shadow: 0 14px 40px rgba(242,179,111,.16);
+    }
+
+    .heroAside { padding: 18px; display:flex; flex-direction: column; gap: 12px; }
+    .asideBlock { padding: 16px; border-radius: 16px; border: 1px solid rgba(255,255,255,.12); background: rgba(255,255,255,.05); }
+    .asideTitle { font-weight: 800; margin: 0 0 6px; }
+    .asideText { margin: 0; color: var(--muted); line-height: 1.55; font-size: 14px; }
+
+    .badges { display:flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
+    .badge { font-size: 12px; color: var(--muted); border: 1px solid rgba(255,255,255,.12); padding: 7px 10px; border-radius: 999px; background: rgba(255,255,255,.04); }
+
+    /* Sections */
+    section { padding: 44px 0; }
+    .sectionTitle { font-size: 24px; margin: 0 0 10px; letter-spacing: -.2px; }
+    .sectionLead { margin: 0 0 18px; color: var(--muted); max-width: 70ch; line-height: 1.6; }
+
+    .grid3 { display:grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    .grid2 { display:grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+
+    .infoCard { padding: 18px; }
+    .kicker { color: rgba(38,192,185,.9); font-weight: 800; font-size: 12px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 8px; }
+    .infoCard h3 { margin: 0 0 8px; font-size: 18px; }
+    .infoCard p { margin: 0; color: var(--muted); line-height: 1.6; }
+    .list { margin: 12px 0 0; padding-left: 18px; color: var(--muted); line-height: 1.7; }
+
+    /* Testimonials */
+    .quote {
+      padding: 18px;
+      background: rgba(255,255,255,.05);
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 16px;
+    }
+    .quote p { margin: 0 0 10px; color: var(--text); line-height: 1.6; }
+    .quote span { color: var(--muted); font-size: 13px; }
+
+    /* Contact */
+    .contactWrap { display:grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    form { display:flex; flex-direction: column; gap: 10px; }
+    label { font-size: 13px; color: var(--muted); }
+    input, textarea {
+      width: 100%;
+      padding: 12px 12px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,.16);
+      background: rgba(0,0,0,.18);
+      color: var(--text);
+      font-size: 14px;
+    }
+    textarea { min-height: 120px; resize: vertical; }
+    .formRow { display:grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+    .small { font-size: 12px; color: var(--muted); line-height: 1.5; }
+
+    /* Footer */
+    footer {
+      padding: 30px 0 40px;
+      border-top: 1px solid rgba(255,255,255,.10);
+      color: var(--muted);
+    }
+    .footerGrid { display:flex; justify-content: space-between; gap: 14px; flex-wrap: wrap; }
+    .footerGrid a { color: var(--muted); text-decoration: underline; text-underline-offset: 3px; }
+
+    /* Responsive */
+    @media (max-width: 920px){
+      .heroGrid { grid-template-columns: 1fr; }
+      .grid3 { grid-template-columns: 1fr; }
+      .grid2 { grid-template-columns: 1fr; }
+      .contactWrap { grid-template-columns: 1fr; }
+      .brand { min-width: unset; }
+      .navlinks { justify-content: flex-start; }
+    }
+  </style>
 </head>
+
 <body>
-    <header>
-        <h1>Welcome to Sacred Serenity Recovery</h1>
-        <nav>
-            <ul>
-                <li><a href="#">Home</a></li>
-                <li><a href="#">About Us</a></li>
-                <li><a href="#">Services</a></li>
-                <li><a href="#">Contact</a></li>
+  <header>
+    <div class="container">
+      <nav class="nav" aria-label="Primary">
+        <a class="brand" href="#top" aria-label="Sacred Serenity Recovery home">
+          <div class="logo" aria-hidden="true"></div>
+          <div>
+            <h1>Sacred Serenity Recovery</h1>
+            <span>Christian-based • Trauma-informed • Hope-centered</span>
+          </div>
+        </a>
+
+        <div class="navlinks">
+          <a href="#programs">Programs</a>
+          <a href="#approach">Approach</a>
+          <a href="#about">About</a>
+          <a href="#resources">Resources</a>
+          <a href="#contact">Contact</a>
+          <a class="cta" href="#contact">Request a Call</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <!-- HERO -->
+    <section class="hero">
+      <div class="container">
+        <div class="heroGrid">
+          <div class="card heroMain">
+            <div class="pill" role="note" aria-label="Mission statement">
+              <span class="dot" aria-hidden="true"></span>
+              Surrender • Restore • Rebuild
+            </div>
+
+            <h2>Recovery support that honors your story—and points you toward hope.</h2>
+            <p>
+              Sacred Serenity Recovery offers Christian-based, trauma-informed recovery support for individuals,
+              couples, and groups. Practical tools, gentle accountability, and a safe place to heal—body, soul, and spirit.
+            </p>
+
+            <div class="heroActions">
+              <a class="btn btnPrimary" href="#programs">Explore Programs</a>
+              <a class="btn" href="#contact">Get Started</a>
+              <a class="btn" href="#resources">Free Resources</a>
+            </div>
+
+            <div class="badges" aria-label="Highlights">
+              <span class="badge">1:1 coaching</span>
+              <span class="badge">Group support</span>
+              <span class="badge">Couples restoration</span>
+              <span class="badge">Workshops & retreats</span>
+            </div>
+          </div>
+
+          <aside class="card heroAside" aria-label="Quick info">
+            <div class="asideBlock">
+              <p class="asideTitle">Who this is for</p>
+              <p class="asideText">
+                People rebuilding after addiction, trauma, betrayal, burnout, grief, or spiritual disconnection—who want a
+                faith-respecting path forward.
+              </p>
+            </div>
+            <div class="asideBlock">
+              <p class="asideTitle">What you can expect</p>
+              <p class="asideText">
+                A steady rhythm: clarity, small steps, honest conversation, scripture-informed reflection, and tools you can use the same day.
+              </p>
+            </div>
+            <div class="asideBlock">
+              <p class="asideTitle">Location</p>
+              <p class="asideText">
+                Based in Flagstaff, Arizona • Available in-person (when offered) and online.
+              </p>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROGRAMS -->
+    <section id="programs">
+      <div class="container">
+        <h2 class="sectionTitle">Programs</h2>
+        <p class="sectionLead">
+          Choose a starting point. You don't have to do everything—just take one next faithful step.
+        </p>
+
+        <div class="grid3">
+          <div class="card infoCard">
+            <div class="kicker">Individual</div>
+            <h3>1:1 Recovery Coaching</h3>
+            <p>Personalized support for sobriety, relapse prevention, emotional regulation, boundaries, and spiritual rebuilding.</p>
+            <ul class="list">
+              <li>Weekly or biweekly sessions</li>
+              <li>Action plan + simple homework</li>
+              <li>Trauma-aware pace</li>
             </ul>
-        </nav>
-    </header>
-    <main>
-        <section>
-            <h2>Our Mission</h2>
-            <p>At Sacred Serenity Recovery, we are dedicated to helping individuals find peace and recovery through compassionate support and guidance. </p>
-        </section>
-        <section>
-            <h2>Get in Touch</h2>
-            <p>Contact us for more information on our services and how we can help you on your recovery journey.</p>
-        </section>
-    </main>
+          </div>
+
+          <div class="card infoCard">
+            <div class="kicker">Couples</div>
+            <h3>Restoration & Reconnection</h3>
+            <p>Guided conversations and practices to rebuild trust, restore intimacy, and learn a healthier rhythm together.</p>
+            <ul class="list">
+              <li>Date-night curriculum option</li>
+              <li>Communication repair tools</li>
+              <li>Shame → dignity framework</li>
+            </ul>
+          </div>
+
+          <div class="card infoCard">
+            <div class="kicker">Groups</div>
+            <h3>Recovery Support Groups</h3>
+            <p>Grace-filled group space for learning, connection, and growth—with clear boundaries and respectful discussion.</p>
+            <ul class="list">
+              <li>Topic-based series</li>
+              <li>Scripture + practical skills</li>
+              <li>Facilitated discussion flow</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- APPROACH -->
+    <section id="approach">
+      <div class="container">
+        <h2 class="sectionTitle">Our Approach</h2>
+        <p class="sectionLead">
+          We integrate faith, recovery wisdom, and trauma-informed care principles—without pressure or performance.
+        </p>
+
+        <div class="grid2">
+          <div class="card infoCard">
+            <div class="kicker">Foundation</div>
+            <h3>Safety + surrender</h3>
+            <p>
+              Recovery begins when you can breathe again. We build safety, stabilize daily rhythms, and practice surrender
+              as strength—not collapse.
+            </p>
+            <ul class="list">
+              <li>Regulate first, then process</li>
+              <li>Gentle accountability</li>
+              <li>Grace-filled truth-telling</li>
+            </ul>
+          </div>
+
+          <div class="card infoCard">
+            <div class="kicker">Tools</div>
+            <h3>Skills you can use immediately</h3>
+            <p>
+              Practical tools for emotions, cravings, triggers, boundaries, and meaning-making—so your faith and your
+              nervous system can work together.
+            </p>
+            <ul class="list">
+              <li>Trigger-plan templates</li>
+              <li>"Dashboard light" emotions framework</li>
+              <li>Scripture-informed reflection</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about">
+      <div class="container">
+        <h2 class="sectionTitle">About Sacred Serenity</h2>
+        <p class="sectionLead">
+          Sacred Serenity Recovery exists to help people reconnect to God, rebuild their lives, and move forward with steady hope.
+        </p>
+
+        <div class="grid2">
+          <div class="card infoCard">
+            <div class="kicker">Mission</div>
+            <h3>Healing that leads to fruit</h3>
+            <p>
+              We help people recover not only from substances or behaviors—but from shame, isolation, and the belief they are "too far gone."
+              You are not your worst moment.
+            </p>
+          </div>
+
+          <div class="card infoCard">
+            <div class="kicker">Values</div>
+            <h3>How we serve</h3>
+            <ul class="list">
+              <li>Respect + confidentiality</li>
+              <li>Trauma-informed pace</li>
+              <li>Faith-honoring practices</li>
+              <li>Clear boundaries, no hype</li>
+              <li>Practical steps + real support</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TESTIMONIALS (placeholders) -->
+    <section aria-label="Testimonials">
+      <div class="container">
+        <h2 class="sectionTitle">What People Say</h2>
+        <p class="sectionLead">Replace these with real testimonials when you're ready.</p>
+
+        <div class="grid3">
+          <div class="quote">
+            <p>"I finally felt safe enough to be honest. Small steps became real change."</p>
+            <span>— Client (anonymous)</span>
+          </div>
+          <div class="quote">
+            <p>"Our marriage moved from blame to rebuilding. The structure helped."</p>
+            <span>— Couple (anonymous)</span>
+          </div>
+          <div class="quote">
+            <p>"Faith was part of the process without feeling forced. That mattered."</p>
+            <span>— Group participant (anonymous)</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- RESOURCES -->
+    <section id="resources">
+      <div class="container">
+        <h2 class="sectionTitle">Free Resources</h2>
+        <p class="sectionLead">
+          A few simple tools to help you start today. (These buttons are placeholders—link them to PDFs when you have them.)
+        </p>
+
+        <div class="grid3">
+          <div class="card infoCard">
+            <div class="kicker">Worksheet</div>
+            <h3>Trigger Plan</h3>
+            <p>Identify triggers, early warning signs, and your "next right step" plan.</p>
+            <p class="small" style="margin-top:12px;">
+              <a class="btn" href="#" onclick="alert('Link this button to your PDF later (e.g., /downloads/trigger-plan.pdf).'); return false;">Download</a>
+            </p>
+          </div>
+
+          <div class="card infoCard">
+            <div class="kicker">Handout</div>
+            <h3>Emotions as Dashboard Lights</h3>
+            <p>A simple way to interpret emotions without shame and choose wise action.</p>
+            <p class="small" style="margin-top:12px;">
+              <a class="btn" href="#" onclick="alert('Link this button to your PDF later (e.g., /downloads/emotions-dashboard.pdf).'); return false;">Download</a>
+            </p>
+          </div>
+
+          <div class="card infoCard">
+            <div class="kicker">Guide</div>
+            <h3>Daily Rhythm for Recovery</h3>
+            <p>Short practices for morning, midday, and evening—body, soul, spirit.</p>
+            <p class="small" style="margin-top:12px;">
+              <a class="btn" href="#" onclick="alert('Link this button to your PDF later (e.g., /downloads/daily-rhythm.pdf).'); return false;">Download</a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact">
+      <div class="container">
+        <h2 class="sectionTitle">Contact</h2>
+        <p class="sectionLead">
+          Send a message to request a call, ask about groups, or explore coaching. If this is an emergency, call 911 (or your local emergency number).
+        </p>
+
+        <div class="contactWrap">
+          <div class="card infoCard">
+            <div class="kicker">Get Started</div>
+            <h3>Request a call</h3>
+            <p class="small">This form opens your email app with a prepared message. Replace the email below with yours.</p>
+
+            <form id="contactForm">
+              <div class="formRow">
+                <div>
+                  <label for="name">Name</label>
+                  <input id="name" name="name" type="text" autocomplete="name" placeholder="Your name" required />
+                </div>
+                <div>
+                  <label for="phone">Phone (optional)</label>
+                  <input id="phone" name="phone" type="tel" autocomplete="tel" placeholder="(###) ###-####" />
+                </div>
+              </div>
+
+              <div class="formRow">
+                <div>
+                  <label for="email">Email</label>
+                  <input id="email" name="email" type="email" autocomplete="email" placeholder="you@example.com" required />
+                </div>
+                <div>
+                  <label for="interest">I'm interested in</label>
+                  <input id="interest" name="interest" type="text" placeholder="1:1 coaching / couples / group / workshop" />
+                </div>
+              </div>
+
+              <div>
+                <label for="message">Message</label>
+                <textarea id="message" name="message" placeholder="Tell us what support you're looking for…" required></textarea>
+              </div>
+
+              <button class="btn btnPrimary" type="submit">Send Message</button>
+
+              <p class="small">
+                Prefer email? Write to: <strong>youremail@yourdomain.com</strong><br/>
+                (Replace this with your real contact info.)
+              </p>
+            </form>
+          </div>
+
+          <div class="card infoCard">
+            <div class="kicker">Details</div>
+            <h3>What happens next</h3>
+            <ul class="list">
+              <li>We'll respond with next steps and availability.</li>
+              <li>You'll get clarity on fit, pricing, and scheduling.</li>
+              <li>We'll agree on a plan that matches your pace and goals.</li>
+            </ul>
+
+            <div style="margin-top:14px; padding:14px; border-radius:16px; border:1px solid rgba(255,255,255,.12); background: rgba(255,255,255,.04);">
+              <p class="asideTitle" style="margin:0 0 6px;">Professional note</p>
+              <p class="asideText" style="margin:0;">
+                Sacred Serenity Recovery provides coaching and support services. It is not a substitute for medical care,
+                crisis services, or licensed therapy. If you are in immediate danger, call emergency services.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
     <footer>
-        <p>&copy; 2026 Sacred Serenity Recovery - All Rights Reserved</p>
+      <div class="container">
+        <div class="footerGrid">
+          <div>
+            <strong style="color: var(--text);">Sacred Serenity Recovery</strong><br/>
+            <span class="small">© <span id="year"></span> • Flagstaff, Arizona • Online & in-person (when offered)</span>
+          </div>
+          <div class="small">
+            <a href="#top">Back to top</a>
+          </div>
+        </div>
+      </div>
     </footer>
+  </main>
+
+  <script>
+    // Set current year
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    // "Email form" submission (no backend required)
+    // Replace YOU_EMAIL_HERE with your real email address.
+    const DEST_EMAIL = "youremail@yourdomain.com";
+
+    document.getElementById("contactForm").addEventListener("submit", function(e){
+      e.preventDefault();
+
+      const name = document.getElementById("name").value.trim();
+      const phone = document.getElementById("phone").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const interest = document.getElementById("interest").value.trim();
+      const message = document.getElementById("message").value.trim();
+
+      const subject = encodeURIComponent("Sacred Serenity Recovery — Contact Request");
+      const body = encodeURIComponent(
+`Name: ${name}
+Email: ${email}
+Phone: ${phone || "—"}
+Interested in: ${interest || "—"}
+
+Message:
+${message}
+`
+      );
+
+      window.location.href = `mailto:${DEST_EMAIL}?subject=${subject}&body=${body}`;
+    });
+  </script>
 </body>
 </html>
